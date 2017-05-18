@@ -1,0 +1,143 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using ExportsOfGoods.Models;
+
+namespace ExportsOfGoods.Controllers
+{
+    public class CustomsQueuesController : Controller
+    {
+        private ExportsContext db = new ExportsContext();
+
+        // GET: CustomsQueues
+        public async Task<ActionResult> Index()
+        {
+            var customsQueues = db.CustomsQueues.Include(c => c.Customs).Include(c => c.Parti);
+            return View(await customsQueues.ToListAsync());
+        }
+
+        // GET: CustomsQueues/Details/5
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CustomsQueue customsQueue = await db.CustomsQueues.FindAsync(id);
+            customsQueue.Customs = await db.Customs.FindAsync(customsQueue.CustomsId);
+            customsQueue.Parti = await db.Parties.FindAsync(customsQueue.PartiId);
+            if (customsQueue == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customsQueue);
+        }
+
+        // GET: CustomsQueues/Create
+        public ActionResult Create()
+        {
+            ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name");
+            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id");
+            return View();
+        }
+
+        // POST: CustomsQueues/Create
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind(Include = "Id,CustomsId,PartiId,TimeBegInsp,TimeEndInsp")] CustomsQueue customsQueue)
+        {
+            if (ModelState.IsValid)
+            {
+                db.CustomsQueues.Add(customsQueue);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name", customsQueue.CustomsId);
+            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id", customsQueue.PartiId);
+            return View(customsQueue);
+        }
+
+        // GET: CustomsQueues/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CustomsQueue customsQueue = await db.CustomsQueues.FindAsync(id);
+            customsQueue.Customs = await db.Customs.FindAsync(customsQueue.CustomsId);
+            customsQueue.Parti = await db.Parties.FindAsync(customsQueue.PartiId);
+            if (customsQueue == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name", customsQueue.CustomsId);
+            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id", customsQueue.PartiId);
+            return View(customsQueue);
+        }
+
+        // POST: CustomsQueues/Edit/5
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CustomsId,PartiId,TimeBegInsp,TimeEndInsp")] CustomsQueue customsQueue)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customsQueue).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name", customsQueue.CustomsId);
+            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id", customsQueue.PartiId);
+            return View(customsQueue);
+        }
+
+        // GET: CustomsQueues/Delete/5
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CustomsQueue customsQueue = await db.CustomsQueues.FindAsync(id);
+            customsQueue.Customs = await db.Customs.FindAsync(customsQueue.CustomsId);
+            customsQueue.Parti = await db.Parties.FindAsync(customsQueue.PartiId);
+            if (customsQueue == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customsQueue);
+        }
+
+        // POST: CustomsQueues/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            CustomsQueue customsQueue = await db.CustomsQueues.FindAsync(id);
+            db.CustomsQueues.Remove(customsQueue);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

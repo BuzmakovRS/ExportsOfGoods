@@ -1,0 +1,50 @@
+﻿@model ExportsOfGoods.Models.CustomsQueue
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CustomsQueue</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customs.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customs.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parti.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parti.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeBegInsp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeBegInsp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeEndInsp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeEndInsp)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,56 @@
+﻿@model ExportsOfGoods.Models.CustomsQueue
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CustomsQueue</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customs.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customs.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parti.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parti.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeBegInsp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeBegInsp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeEndInsp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeEndInsp)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
