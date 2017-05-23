@@ -22,38 +22,38 @@ namespace ExportsOfGoods.Models
         [DisplayName("Время на досмотр"), DisplayFormat(ApplyFormatInEditMode = true,
             DataFormatString = "{0:t}")]
         public DateTime? InspectionTime { get; set; }
-        [DisplayName("Дата досмотра"), DisplayFormat(ApplyFormatInEditMode = true)]
-        public DateTime? InspectionDate { get; set; }
-        [NotMapped]
-        public string InspectionTimeDisplay
-        {
-            get
-            {
+        //[DisplayName("Дата досмотра"), DisplayFormat(ApplyFormatInEditMode = true)]
+        //public DateTime? InspectionDate { get; set; }
+        //[NotMapped]
+        //public string InspectionTimeDisplay
+        //{
+        //    get
+        //    {
 
-                return InspectionTime.HasValue ? InspectionTime.Value.ToShortTimeString() : "";
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                    InspectionTime = null;
-                else
-                {
-                    var timeArg = value.Split('.', ':').Cast<int>().ToArray();
-                    int hour = 0;
-                    int min = 0;
-                    int sec = 0;
+        //        return InspectionTime.HasValue ? InspectionTime.Value.ToShortTimeString() : "";
+        //    }
+        //    set
+        //    {
+        //        if (string.IsNullOrEmpty(value))
+        //            InspectionTime = null;
+        //        else
+        //        {
+        //            var timeArg = value.Split('.', ':').Cast<int>().ToArray();
+        //            int hour = 0;
+        //            int min = 0;
+        //            int sec = 0;
 
-                    if (timeArg.Any())
-                        hour = timeArg[0];
-                    if (timeArg.Length > 1)
-                        min = timeArg[1];
-                    if (timeArg.Length > 2)
-                        sec = timeArg[2];
+        //            if (timeArg.Any())
+        //                hour = timeArg[0];
+        //            if (timeArg.Length > 1)
+        //                min = timeArg[1];
+        //            if (timeArg.Length > 2)
+        //                sec = timeArg[2];
 
-                    var datetime = DateTime.Now;
-                    InspectionTime = new DateTime(0, 0, 0, hour, min, sec);
-                }
-            }
-        }
+        //            var datetime = DateTime.Now;
+        //            InspectionTime = new DateTime(0, 0, 0, hour, min, sec);
+        //        }
+        //    }
+        //}
     }
 }

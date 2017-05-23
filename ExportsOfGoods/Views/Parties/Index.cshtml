@@ -24,9 +24,9 @@
         <th>
             @Html.DisplayNameFor(model => model.InspectionTime)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.InspectionDate)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -44,9 +44,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.InspectionTime)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.InspectionDate)
-        </td>
+        </td>*@
         <td>
             @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Подробнее", "Details", new { id=item.Id }) |
