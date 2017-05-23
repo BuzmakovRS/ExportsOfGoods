@@ -16,13 +16,13 @@ namespace ExportsOfGoods.Models
         [Required]
         public int? CustomsId { get; set; }
         public Customs Customs { get; set; }
-        [Required]
+        [Required, DisplayName("№ партии")]
         public int? PartiId { get; set; }
         public Parti Parti { get; set; }
-        [DisplayName("Дата досмотра"), DisplayFormat(ApplyFormatInEditMode = true,
+        [DisplayName("Начало досмотра"), DisplayFormat(ApplyFormatInEditMode = true,
     DataFormatString = "{0:G}")]
         public DateTime TimeBegInsp { get; set; }
-        [DisplayName("Дата досмотра"), DisplayFormat(ApplyFormatInEditMode = true,
+        [DisplayName("Окончание досмотра"), DisplayFormat(ApplyFormatInEditMode = true,
     DataFormatString = "{0:G}")]
         public DateTime TimeEndInsp { get; set; }
     }

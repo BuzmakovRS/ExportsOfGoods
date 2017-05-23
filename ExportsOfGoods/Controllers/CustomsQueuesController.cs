@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ExportsOfGoods.Models;
+using System.Globalization;
 
 namespace ExportsOfGoods.Controllers
 {
@@ -52,8 +53,21 @@ namespace ExportsOfGoods.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CustomsId,PartiId,TimeBegInsp,TimeEndInsp")] CustomsQueue customsQueue)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegInsp, string timeEndInsp)
         {
+            DateTime dt = new DateTime();
+            if (!DateTime.TryParseExact(timeBegInsp, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+                ModelState.AddModelError("timeBegInsp", "Формат даты: dd.MM.yyyy HH:mm");
+            else
+            {
+                customsQueue.TimeBegInsp = dt;
+            }
+            if (!DateTime.TryParseExact(timeEndInsp, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+                ModelState.AddModelError("timeEndInsp", "Формат даты: dd.MM.yyyy HH:mm");
+            else
+            {
+                customsQueue.TimeEndInsp = dt;
+            }
             if (ModelState.IsValid)
             {
                 db.CustomsQueues.Add(customsQueue);
@@ -90,8 +104,21 @@ namespace ExportsOfGoods.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CustomsId,PartiId,TimeBegInsp,TimeEndInsp")] CustomsQueue customsQueue)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegInsp, string timeEndInsp)
         {
+            DateTime dt = new DateTime();
+            if (!DateTime.TryParseExact(timeBegInsp, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+                ModelState.AddModelError("", "Укажите дату в формате dd.MM.yyyy HH:mm");
+            else
+            {
+                customsQueue.TimeBegInsp = dt;
+            }
+            if (!DateTime.TryParseExact(timeEndInsp, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+                ModelState.AddModelError("timeEndInsp", "Укажите дату в формате dd.MM.yyyy HH:mm");
+            else
+            {
+                customsQueue.TimeEndInsp = dt;
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(customsQueue).State = EntityState.Modified;

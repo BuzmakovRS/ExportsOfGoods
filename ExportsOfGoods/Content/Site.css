@@ -22,3 +22,19 @@ select,
 textarea {
     max-width: 280px;
 }
+.downlink >p {
+    margin-left: 3%;
+}
+.bodyheader {
+    padding: 0 0 10px 2%;
+    margin: 20px 0 10px;
+}
+.bodyheader2{
+    padding-left: 1%;
+}
+.btn-bodyheader{
+    padding-left:4%;
+}
+.navbar-nav{
+    margin-left: 4%;
+}

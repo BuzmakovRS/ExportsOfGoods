@@ -1,28 +1,28 @@
 ﻿@model ExportsOfGoods.Models.Parti
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование";
 }
 
-<h2>Edit</h2>
+<h2 class="bodyheader">Партии</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Parti</h4>
+        <h4 class="bodyheader2">Редактирование</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Id)
         <div class="form-group">
-            @Html.LabelFor(model =>model.Id, "№ партии", htmlAttributes:new { @class = "form-control" })
+            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.LabelFor(model =>model.Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(model => model.Id, htmlAttributes: new { @class = "form-control", disabled = "true" })
             </div>
         </div>
-        @Html.HiddenFor(model => model.Id)
-
         <div class="form-group">
             @Html.LabelFor(model => model.ProductId, "ProductId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -42,31 +42,31 @@
         <div class="form-group">
             @Html.LabelFor(model => model.InspectionTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.InspectionTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InspectionTime, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.InspectionTime, htmlAttributes: new { @class = "form-control", disabled = "true" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group te">
             @Html.LabelFor(model => model.InspectionDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.InspectionDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InspectionDate, "", new { @class = "text-danger" })
+                @Html.TextBox("inspDate", Model.InspectionDate, htmlAttributes: new { @class = "form-control datetimepicker" })
+                @Html.ValidationMessage("inspDate", "dd.mm.yy hh:mm", new { @class = "text-info" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Вернуться к списку", "Index", new { }, htmlAttributes: new { @class = "btn btn-sm btn-default" })
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datetimepicker");
 }

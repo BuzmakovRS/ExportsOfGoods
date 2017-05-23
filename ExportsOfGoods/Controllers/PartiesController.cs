@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ExportsOfGoods.Models;
+using System.Globalization;
 
 namespace ExportsOfGoods.Controllers
 {
@@ -50,8 +51,23 @@ namespace ExportsOfGoods.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,ProductId,PartiSize,InspectionTime,InspectionDate")] Parti parti)
+        public async Task<ActionResult> Create([Bind(Include = "Id,ProductId,PartiSize")] Parti parti, string inspDate)
         {
+            DateTime dt = new DateTime();
+            if (!DateTime.TryParseExact(inspDate, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+                ModelState.AddModelError("", "Формат даты dd.MM.yyyy HH:mm");
+            else
+            {
+                int min = dt.Minute;
+                if (min < 30)
+                    dt = dt.AddMinutes(30 - min);
+                else
+                    dt = dt.AddMinutes(60 - min);
+                parti.InspectionDate = dt;
+                dt = dt.AddMinutes(30);
+                parti.InspectionTime = dt;
+            }
+
             if (ModelState.IsValid)
             {
                 db.Parties.Add(parti);
@@ -85,8 +101,15 @@ namespace ExportsOfGoods.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ProductId,PartiSize,InspectionTime,InspectionDate")] Parti parti)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,ProductId,PartiSize")] Parti parti, string inspDate)
         {
+            DateTime dt = new DateTime();
+            if (!DateTime.TryParseExact(inspDate, "dd.MM.yyyy HH:mm", new CultureInfo("fr-FR"), DateTimeStyles.None, out dt))
+                ModelState.AddModelError("", "Формат даты: dd.MM.yyyy HH:mm");
+            else
+            {
+                parti.InspectionDate = dt;
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(parti).State = EntityState.Modified;
