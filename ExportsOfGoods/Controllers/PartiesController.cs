@@ -42,7 +42,7 @@ namespace ExportsOfGoods.Controllers
         // GET: Parties/Create
         public ActionResult Create()
         {
-            ViewBag.ProductId = new SelectList(db.Products, "Id", "Name");
+            ViewBag.ProductId = new SelectList(db.Products, "Id", "NameProducer");
             return View();
         }
 
@@ -68,14 +68,20 @@ namespace ExportsOfGoods.Controllers
             //    parti.InspectionTime = dt;
             //}
 
+            DateTime dt = new DateTime(2000,1,1);
+            string tempDate = dt.ToString("dd.MM.yyyy HH:mm");
+            if (DateTime.TryParseExact(tempDate, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+            {
+                dt = dt.AddMinutes(30);
+                parti.InspectionTime = dt;
+            }
             if (ModelState.IsValid)
             {
                 db.Parties.Add(parti);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ProductId = new SelectList(db.Products, "Id", "Name", parti.ProductId);
+            ViewBag.ProductId = new SelectList(db.Products, "Id", "NameProducer", parti.ProductId);
             return View(parti);
         }
 

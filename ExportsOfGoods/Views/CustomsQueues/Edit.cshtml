@@ -28,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PartiId, "PartiId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("PartiId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("PartiId", null, htmlAttributes: new { @class = "form-control", id = "partiId" })
                 @Html.ValidationMessageFor(model => model.PartiId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,16 +36,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TimeBegInsp, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("timeBegInsp", Model.TimeBegInsp, htmlAttributes: new { @class = "form-control datetimepicker" })
-                @Html.ValidationMessage("timeBegInsp", "dd.mm.yyyy HH:mm", new { @class = "text-info" })
+                @Html.TextBox("timeBegIns", Model.TimeBegInsp, "{0:g}", htmlAttributes: new { @class = "form-control datetimepicker", id = "timeBeg" })
+                @Html.ValidationMessage("", "dd.MM.yyyy HH:mm", new { @class = "text-info" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.TimeEndInsp, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("timeEndInsp", Model.TimeEndInsp, htmlAttributes: new { @class = "form-control datetimepicker" })
-                @Html.ValidationMessage("timeEndInsp", "dd.mm.yyyy HH:mm", new { @class = "text-info" })
+                @Html.TextBox("timeEndIns", Model.TimeEndInsp, "{0:g}", htmlAttributes: new { @class = "form-control", id = "timeEnd", @readonly = "readonly" })
             </div>
         </div>
 
@@ -58,10 +57,10 @@
 }
 
 <div>
-    @Html.ActionLink("Вернуться к списку", "Index", new { }, htmlAttributes: new { @class = "btn btn-sm btn-default" }))
+    @Html.ActionLink("Вернуться к списку", "Index", new { }, htmlAttributes: new { @class = "btn btn-sm btn-default" })
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval");
-    @Scripts.Render("~/bundles/datetimepicker");
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datetimepicker")
 }

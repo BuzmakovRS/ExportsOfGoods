@@ -26,4 +26,14 @@ namespace ExportsOfGoods.Models
     DataFormatString = "{0:G}")]
         public DateTime TimeEndInsp { get; set; }
     }
+
+
+    //public class RangeDateAttribute : RangeAttribute
+    //{
+    //    public RangeDateAttribute()
+    //      : base(typeof(DateTime),
+    //              DateTime.Now.AddDays(-1).ToString("{0:g}"),
+    //              DateTime.Now.AddDays(14).ToString("{0:g}"))
+    //    { }
+    //}
 }

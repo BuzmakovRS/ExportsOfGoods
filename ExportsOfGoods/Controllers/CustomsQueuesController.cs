@@ -104,16 +104,16 @@ namespace ExportsOfGoods.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegInsp, string timeEndInsp)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegIns, string timeEndIns)
         {
             DateTime dt = new DateTime();
-            if (!DateTime.TryParseExact(timeBegInsp, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+            if (!DateTime.TryParseExact(timeBegIns, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
                 ModelState.AddModelError("", "Укажите дату в формате dd.MM.yyyy HH:mm");
             else
             {
                 customsQueue.TimeBegInsp = dt;
             }
-            if (!DateTime.TryParseExact(timeEndInsp, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+            if (!DateTime.TryParseExact(timeEndIns, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
                 ModelState.AddModelError("timeEndInsp", "Укажите дату в формате dd.MM.yyyy HH:mm");
             else
             {
@@ -166,5 +166,23 @@ namespace ExportsOfGoods.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public async Task<string> GetInspTimeEnd(string tb, string pId)
+        {
+            DateTime dt = new DateTime();
+            if (!DateTime.TryParseExact(tb, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
+            {
+                return "EROR";
+            }
+            else
+            {
+                Parti parti = await db.Parties.FindAsync(Convert.ToInt32(pId));
+                dt = dt.AddHours(parti.InspectionTime.Value.Hour);
+                dt = dt.AddMinutes(parti.InspectionTime.Value.Minute);
+                return  dt.ToString("dd.MM.yyyy HH:mm");
+            }
+
+        }
+
     }
 }

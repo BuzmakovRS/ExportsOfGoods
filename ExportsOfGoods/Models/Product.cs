@@ -20,6 +20,13 @@ namespace ExportsOfGoods.Models
         [Required]
         [DisplayName("Производитель"), StringLength(50)]
         public string Producer { get; set; }
-
+        [NotMapped]
+        public string NameProducer
+        {
+            get
+            {
+                return String.Format("{0} ({1})", Name, Producer);
+            }
+        }
     }
 }

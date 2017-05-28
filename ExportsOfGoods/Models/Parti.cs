@@ -18,9 +18,10 @@ namespace ExportsOfGoods.Models
         public int? ProductId { get; set; }
         public Product Product { get; set; }
         [Required, DisplayName("Размер партии")]
+        [Range(1, int.MaxValue, ErrorMessage = "Введите целое число больше 0")]
         public int PartiSize { get; set; }
         [DisplayName("Время на досмотр"), DisplayFormat(ApplyFormatInEditMode = true,
-            DataFormatString = "{0:t}")]
+            DataFormatString = "{0:T}")]
         public DateTime? InspectionTime { get; set; }
         //[DisplayName("Дата досмотра"), DisplayFormat(ApplyFormatInEditMode = true)]
         //public DateTime? InspectionDate { get; set; }

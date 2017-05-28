@@ -26,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PartiId, "PartiId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("PartiId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("PartiId", null, htmlAttributes: new { @class = "form-control", id = "partiId" })
                 @Html.ValidationMessageFor(model => model.PartiId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,16 +34,20 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TimeBegInsp, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("timeBegInsp", "", htmlAttributes: new { @class = "form-control datetimepicker" })
-                @Html.ValidationMessage("timeBegInsp", "dd.MM.yyyy HH:mm", new { @class = "text-info" })
+                @Html.TextBox("timeBegInsp", "", htmlAttributes: new { @class = "form-control datetimepicker", id = "timeBeg"})
+                @Html.ValidationMessage("", "dd.MM.yyyy HH:mm", new { @class = "text-info" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.TimeEndInsp, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("timeEndInsp", "", htmlAttributes: new { @class = "form-control datetimepicker" })
-                @Html.ValidationMessage("timeEndInsp", "dd.MM.yyyy HH:mm", new { @class = "text-info" })
+                @Html.TextBox("timeEndInsp", "", htmlAttributes: new
+           {
+               @class = "form-control",
+               id = "timeEnd",
+               @readonly = "readonly"
+           })
             </div>
         </div>
 
@@ -60,7 +64,6 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval");
-    @Scripts.Render("~/bundles/datetimepicker");
-
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datetimepicker")
 }

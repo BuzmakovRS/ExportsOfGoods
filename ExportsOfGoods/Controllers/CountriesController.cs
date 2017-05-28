@@ -49,13 +49,21 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "CountryId,CountryName")] Country country)
         {
-            if (ModelState.IsValid)
+            if (db.Countries.Select(c => c.CountryName)
+                .ToList().
+                Contains(country.CountryName))
             {
-                db.Countries.Add(country);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                ModelState.AddModelError("CountryName", "Данная страна уже добавлена в базу");
             }
-
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Countries.Add(country);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
             return View(country);
         }
 
