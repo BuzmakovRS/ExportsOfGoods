@@ -172,7 +172,7 @@ namespace ExportsOfGoods.Controllers
             DateTime dt = new DateTime();
             if (!DateTime.TryParseExact(tb, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
             {
-                return "EROR";
+                return "Установите время начала досмотра";
             }
             else
             {

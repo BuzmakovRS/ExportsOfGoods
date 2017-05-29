@@ -209,6 +209,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Customs.cs" />
     <Compile Include="Models\CustomsQueue.cs" />
@@ -310,6 +311,7 @@
     <Content Include="Views\CustomsQueues\Details.cshtml" />
     <Content Include="Views\CustomsQueues\Edit.cshtml" />
     <Content Include="Views\CustomsQueues\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
