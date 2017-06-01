@@ -21,7 +21,7 @@ namespace ExportsOfGoods.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("IdentityDbContext", throwIfV1Schema: false)
+            : base("ExportsContext", throwIfV1Schema: false)
         {
         }
 

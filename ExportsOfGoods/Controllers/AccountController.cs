@@ -57,15 +57,13 @@ namespace ExportsOfGoods.Controllers
         [Authorize]
         public ActionResult Index()
         {
+
             IList<string> roles = new List<string> { "Роль не определена" };
             ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var userAdm = userManager.FindByEmail(User.Identity.Name);
-            if (userAdm != null)
-                UserManager.AddToRole(userAdm.Id, "admin");
+
             ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
             if (user != null)
                 roles = userManager.GetRoles(user.Id);
-
 
 
             return View(roles);

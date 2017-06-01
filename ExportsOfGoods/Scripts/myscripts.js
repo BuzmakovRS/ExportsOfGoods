@@ -5,6 +5,7 @@ $(function () {
         dayOfWeekStart: 1,
         format: 'd.m.Y H:i',
         mask: true,
+        minTime: 0,
         minDate: '0',
         maxDate: '+1970/01/14',
         step: 30

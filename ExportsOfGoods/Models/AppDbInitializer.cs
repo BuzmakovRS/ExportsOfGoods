@@ -21,7 +21,7 @@ namespace ExportsOfGoods.Models
             roleManager.Create(role1);
             roleManager.Create(role2);
 
-            var admin = new ApplicationUser { Email = "buzmakovrs@gmail.com", UserName = "buzmakovrs" };
+            var admin = new ApplicationUser { Email = "buzmakovrs@gmail.com"};
             string password = "adminADMIN";
             var result = userManager.Create(admin, password);
 

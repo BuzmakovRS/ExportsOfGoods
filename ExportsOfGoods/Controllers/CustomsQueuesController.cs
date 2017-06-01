@@ -15,7 +15,7 @@ namespace ExportsOfGoods.Controllers
     public class CustomsQueuesController : Controller
     {
         private ExportsContext db = new ExportsContext();
-
+        [Authorize]
         // GET: CustomsQueues
         public async Task<ActionResult> Index()
         {
@@ -24,6 +24,7 @@ namespace ExportsOfGoods.Controllers
         }
 
         // GET: CustomsQueues/Details/5
+        [Authorize]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,6 +42,7 @@ namespace ExportsOfGoods.Controllers
         }
 
         // GET: CustomsQueues/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name");
@@ -51,6 +53,7 @@ namespace ExportsOfGoods.Controllers
         // POST: CustomsQueues/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegInsp, string timeEndInsp)
@@ -81,6 +84,7 @@ namespace ExportsOfGoods.Controllers
         }
 
         // GET: CustomsQueues/Edit/5
+        [Authorize]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -102,6 +106,7 @@ namespace ExportsOfGoods.Controllers
         // POST: CustomsQueues/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegIns, string timeEndIns)
@@ -131,6 +136,7 @@ namespace ExportsOfGoods.Controllers
         }
 
         // GET: CustomsQueues/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,6 +154,7 @@ namespace ExportsOfGoods.Controllers
         }
 
         // POST: CustomsQueues/Delete/5
+        [Authorize(Roles ="admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
@@ -157,7 +164,7 @@ namespace ExportsOfGoods.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        [Authorize]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -166,7 +173,7 @@ namespace ExportsOfGoods.Controllers
             }
             base.Dispose(disposing);
         }
-
+        [Authorize]
         public async Task<string> GetInspTimeEnd(string tb, string pId)
         {
             DateTime dt = new DateTime();

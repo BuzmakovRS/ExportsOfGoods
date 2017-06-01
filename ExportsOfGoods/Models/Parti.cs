@@ -20,6 +20,8 @@ namespace ExportsOfGoods.Models
         [Required, DisplayName("Размер партии")]
         [Range(1, int.MaxValue, ErrorMessage = "Введите целое число больше 0")]
         public int PartiSize { get; set; }
+        public int? TypeOfInspectionId { get; set; }
+        public TypeOfInspecion TypeOfInspection { get; set; }
         [DisplayName("Время на досмотр"), DisplayFormat(ApplyFormatInEditMode = true,
             DataFormatString = "{0:T}")]
         public DateTime? InspectionTime { get; set; }

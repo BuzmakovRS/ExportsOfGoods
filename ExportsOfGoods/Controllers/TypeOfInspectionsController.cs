@@ -11,133 +11,119 @@ using ExportsOfGoods.Models;
 
 namespace ExportsOfGoods.Controllers
 {
-    public class CustomsController : Controller
+    public class TypeOfInspectionsController : Controller
     {
         private ExportsContext db = new ExportsContext();
 
-        // GET: Customs
-        [Authorize]
+        [Authorize(Roles ="admin")]
+        // GET: TypeOfInspecions
         public async Task<ActionResult> Index()
         {
-            var customs = db.Customs.Include(c => c.CountryRec).Include(c => c.CountrySend);
-            return View(await customs.ToListAsync());
+            return View(await db.TypeOfInspection.ToListAsync());
         }
 
-        // GET: Customs/Details/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
+        // GET: TypeOfInspecions/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customs customs = await db.Customs.FindAsync(id);
-            customs.CountrySend = await db.Countries.FindAsync(customs.SenderId);
-            customs.CountryRec = await db.Countries.FindAsync(customs.RecipientId);
-            if (customs == null)
+            TypeOfInspecion typeOfInspecion = await db.TypeOfInspection.FindAsync(id);
+            if (typeOfInspecion == null)
             {
                 return HttpNotFound();
             }
-            return View(customs);
+            return View(typeOfInspecion);
         }
 
-        // GET: Customs/Create
-        [Authorize]
+        [Authorize(Roles = "admin")]
+        // GET: TypeOfInspecions/Create
         public ActionResult Create()
         {
-            ViewBag.RecipientId = new SelectList(db.Countries, "CountryId", "CountryName");
-            ViewBag.SenderId = new SelectList(db.Countries, "CountryId", "CountryName");
             return View();
         }
 
-        // POST: Customs/Create
+        // POST: TypeOfInspecions/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,SenderId,RecipientId")] Customs customs)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Type,Time")] TypeOfInspecion typeOfInspecion)
         {
             if (ModelState.IsValid)
             {
-                db.Customs.Add(customs);
+                db.TypeOfInspection.Add(typeOfInspecion);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RecipientId = new SelectList(db.Countries, "CountryId", "CountryName", customs.RecipientId);
-            ViewBag.SenderId = new SelectList(db.Countries, "CountryId", "CountryName", customs.SenderId);
-            return View(customs);
+            return View(typeOfInspecion);
         }
 
-        // GET: Customs/Edit/5
-        [Authorize]
+        [Authorize(Roles = "admin")]
+        // GET: TypeOfInspecions/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customs customs = await db.Customs.FindAsync(id);
-            customs.CountrySend = await db.Countries.FindAsync(customs.SenderId);
-            customs.CountryRec = await db.Countries.FindAsync(customs.RecipientId);
-            if (customs == null)
+            TypeOfInspecion typeOfInspecion = await db.TypeOfInspection.FindAsync(id);
+            if (typeOfInspecion == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.RecipientId = new SelectList(db.Countries, "CountryId", "CountryName", customs.RecipientId);
-            ViewBag.SenderId = new SelectList(db.Countries, "CountryId", "CountryName", customs.SenderId);
-            return View(customs);
+            return View(typeOfInspecion);
         }
 
-        // POST: Customs/Edit/5
+        // POST: TypeOfInspecions/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,SenderId,RecipientId")] Customs customs)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Type,Time")] TypeOfInspecion typeOfInspecion)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customs).State = EntityState.Modified;
+                db.Entry(typeOfInspecion).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.RecipientId = new SelectList(db.Countries, "CountryId", "CountryName", customs.RecipientId);
-            ViewBag.SenderId = new SelectList(db.Countries, "CountryId", "CountryName", customs.SenderId);
-            return View(customs);
+            return View(typeOfInspecion);
         }
 
-        // GET: Customs/Delete/5
-        [Authorize(Roles ="admin")]
+        // GET: TypeOfInspecions/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customs customs = await db.Customs.FindAsync(id);
-            customs.CountrySend = await db.Countries.FindAsync(customs.SenderId);
-            customs.CountryRec = await db.Countries.FindAsync(customs.RecipientId);
-            if (customs == null)
+            TypeOfInspecion typeOfInspecion = await db.TypeOfInspection.FindAsync(id);
+            if (typeOfInspecion == null)
             {
                 return HttpNotFound();
             }
-            return View(customs);
+            return View(typeOfInspecion);
         }
 
-        // POST: Customs/Delete/5
+        // POST: TypeOfInspecions/Delete/5
         [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Customs customs = await db.Customs.FindAsync(id);
-            db.Customs.Remove(customs);
+            TypeOfInspecion typeOfInspecion = await db.TypeOfInspection.FindAsync(id);
+            db.TypeOfInspection.Remove(typeOfInspecion);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
         [Authorize]
         protected override void Dispose(bool disposing)
         {

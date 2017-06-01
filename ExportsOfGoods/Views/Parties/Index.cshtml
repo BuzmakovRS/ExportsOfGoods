@@ -22,6 +22,9 @@
             @Html.DisplayNameFor(model => model.PartiSize)
         </th>
         <th>
+            @Html.DisplayNameFor(model=>model.TypeOfInspection.Type)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.InspectionTime)
         </th>
         @*<th>
@@ -40,6 +43,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PartiSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfInspection.Type)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InspectionTime)

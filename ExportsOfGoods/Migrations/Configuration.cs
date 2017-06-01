@@ -27,6 +27,9 @@ namespace ExportsOfGoods.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            context.TypeOfInspection.AddOrUpdate(new Models.TypeOfInspecion { Type = "ƒосмотр с выборочным вскрытием", Time = 0.005 },
+                new Models.TypeOfInspecion { Type = "ƒосмотр с пересчетом и взвещиванием", Time = 0.01 },
+                new Models.TypeOfInspecion { Type = "ƒосмотр со вскрытием всех грузовых мест", Time = 0.02 });
         }
     }
 }

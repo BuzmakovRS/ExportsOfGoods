@@ -196,6 +196,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PartiesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\TypeOfInspectionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -206,6 +207,14 @@
     <Compile Include="Migrations\201705231501166_MigrateDB.cs" />
     <Compile Include="Migrations\201705231501166_MigrateDB.Designer.cs">
       <DependentUpon>201705231501166_MigrateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705311953214_AddTableTypeOfInspection.cs" />
+    <Compile Include="Migrations\201705311953214_AddTableTypeOfInspection.Designer.cs">
+      <DependentUpon>201705311953214_AddTableTypeOfInspection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705311959527_AddColumnInTableType.cs" />
+    <Compile Include="Migrations\201705311959527_AddColumnInTableType.Designer.cs">
+      <DependentUpon>201705311959527_AddColumnInTableType.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -218,6 +227,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Parti.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\TypeOfInspecion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -312,6 +322,11 @@
     <Content Include="Views\CustomsQueues\Edit.cshtml" />
     <Content Include="Views\CustomsQueues\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\TypeOfInspecions\Create.cshtml" />
+    <Content Include="Views\TypeOfInspecions\Delete.cshtml" />
+    <Content Include="Views\TypeOfInspecions\Details.cshtml" />
+    <Content Include="Views\TypeOfInspecions\Edit.cshtml" />
+    <Content Include="Views\TypeOfInspecions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -334,6 +349,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705231501166_MigrateDB.resx">
       <DependentUpon>201705231501166_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705311953214_AddTableTypeOfInspection.resx">
+      <DependentUpon>201705311953214_AddTableTypeOfInspection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705311959527_AddColumnInTableType.resx">
+      <DependentUpon>201705311959527_AddColumnInTableType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

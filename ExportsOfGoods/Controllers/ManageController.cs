@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ExportsOfGoods.Models;
+using System.Collections.Generic;
 
 namespace ExportsOfGoods.Controllers
 {
@@ -64,8 +65,14 @@ namespace ExportsOfGoods.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            IList<string> roles = new List<string> { "Роль не определена" };
+            ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
             var model = new IndexViewModel
             {
+                Roles = roles,
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),

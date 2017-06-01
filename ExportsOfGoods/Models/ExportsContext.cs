@@ -16,5 +16,6 @@ namespace ExportsOfGoods.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<Customs> Customs { get; set; }
         public DbSet<CustomsQueue> CustomsQueues { get; set; }
+        public DbSet<TypeOfInspecion> TypeOfInspection { get; set; }
     }
 }

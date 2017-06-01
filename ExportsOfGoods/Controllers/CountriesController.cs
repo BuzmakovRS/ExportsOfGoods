@@ -14,13 +14,13 @@ namespace ExportsOfGoods.Controllers
     public class CountriesController : Controller
     {
         private ExportsContext db = new ExportsContext();
-
+        [Authorize]
         // GET: Countries
         public async Task<ActionResult> Index()
         {
             return View(await db.Countries.ToListAsync());
         }
-
+        [Authorize]
         // GET: Countries/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -35,7 +35,7 @@ namespace ExportsOfGoods.Controllers
             }
             return View(country);
         }
-
+        [Authorize]
         // GET: Countries/Create
         public ActionResult Create()
         {
@@ -45,6 +45,7 @@ namespace ExportsOfGoods.Controllers
         // POST: Countries/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "CountryId,CountryName")] Country country)
@@ -66,7 +67,7 @@ namespace ExportsOfGoods.Controllers
             }
             return View(country);
         }
-
+        [Authorize]
         // GET: Countries/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -85,7 +86,8 @@ namespace ExportsOfGoods.Controllers
         // POST: Countries/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [Authorize]
+        [HttpPost] 
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "CountryId,CountryName")] Country country)
         {
@@ -97,7 +99,7 @@ namespace ExportsOfGoods.Controllers
             }
             return View(country);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Countries/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
@@ -112,7 +114,7 @@ namespace ExportsOfGoods.Controllers
             }
             return View(country);
         }
-
+        [Authorize(Roles ="admin")]
         // POST: Countries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -123,7 +125,7 @@ namespace ExportsOfGoods.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        [Authorize]
         protected override void Dispose(bool disposing)
         {
             if (disposing)

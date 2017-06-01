@@ -28,6 +28,13 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.TypeOfInspection.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TypeOfInspection.Type)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.InspectionTime)
         </dt>
 
@@ -36,16 +43,17 @@
         </dd>
 
         @*<dt>
-            @Html.DisplayNameFor(model => model.InspectionDate)
-        </dt>*@
+                @Html.DisplayNameFor(model => model.InspectionDate)
+            </dt>*@
 
         @*<dd>
-            @Html.DisplayFor(model => model.InspectionDate)
-        </dd>*@
+                @Html.DisplayFor(model => model.InspectionDate)
+            </dd>*@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
