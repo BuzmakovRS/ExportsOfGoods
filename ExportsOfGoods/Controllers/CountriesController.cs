@@ -18,6 +18,10 @@ namespace ExportsOfGoods.Controllers
         // GET: Countries
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.User.IsInRole("admin"))
+            {
+                ViewBag.isAdmin = true;
+            }
             return View(await db.Countries.ToListAsync());
         }
         [Authorize]

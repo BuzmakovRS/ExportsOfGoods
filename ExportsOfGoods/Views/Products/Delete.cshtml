@@ -1,14 +1,14 @@
 ﻿@model ExportsOfGoods.Models.Product
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление";
 }
 
-<h2>Delete</h2>
+<h2 class="bodyheader">Продукты</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="bodyheader2">Удаление</h3>
 <div>
-    <h4>Product</h4>
+    <h4>Вы действительно хотите удалить запись?</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -33,8 +33,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Вернуться к списку", "Index")
         </div>
     }
 </div>

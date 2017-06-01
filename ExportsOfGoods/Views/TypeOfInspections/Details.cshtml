@@ -1,14 +1,14 @@
 ﻿@model ExportsOfGoods.Models.TypeOfInspecion
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подроднее";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2 class="bodyheader">Подробнее</h2>
 
 <div>
-    <h4>TypeOfInspecion</h4>
+    <h4 class="bodyheader2">Степень досмотра</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -30,6 +30,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
 </p>

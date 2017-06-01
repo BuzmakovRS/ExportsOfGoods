@@ -73,6 +73,15 @@ namespace ExportsOfGoods.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+        {
+            return View("Error", new string[] { "В доступе отказано" });
+        }
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                ViewBag.isNotAuth = true;
+            }
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -84,6 +93,10 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                ViewBag.isNotAuth = true;
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -155,6 +168,10 @@ namespace ExportsOfGoods.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                ViewBag.isNotAuth = true;
+            }
             return View();
         }
 
@@ -165,6 +182,10 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                ViewBag.isNotAuth = true;
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };

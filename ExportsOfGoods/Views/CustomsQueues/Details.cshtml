@@ -1,13 +1,13 @@
 ﻿@model ExportsOfGoods.Models.CustomsQueue
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подробнее";
 }
 
-<h2>Details</h2>
+<h2 class="bodyheader">Запись на досмотр</h2>
 
 <div>
-    <h4>CustomsQueue</h4>
+    <h4 class="bodyheader2">Подробнее</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,11 +19,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Parti.Id)
+            @Html.DisplayNameFor(model => model.Parti)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Parti.Id)
+            @Html.DisplayFor(model => model.Parti.GetFullName)
         </dd>
 
         <dt>
@@ -45,6 +45,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
 </p>

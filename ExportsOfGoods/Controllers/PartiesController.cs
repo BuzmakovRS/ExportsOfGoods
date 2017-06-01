@@ -20,6 +20,10 @@ namespace ExportsOfGoods.Controllers
         [Authorize]
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.User.IsInRole("admin"))
+            {
+                ViewBag.isAdmin = true;
+            }
             var parties = db.Parties.Include(p => p.Product).Include(p=>p.TypeOfInspection);
             return View(await parties.ToListAsync());
         }
@@ -60,28 +64,6 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,ProductId,PartiSize,TypeOfInspectionId")] Parti parti)
         {
-            //DateTime dt = new DateTime();
-            //if (!DateTime.TryParseExact(inspDate, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
-            //    ModelState.AddModelError("", "Формат даты dd.MM.yyyy HH:mm");
-            //else
-            //{
-            //    int min = dt.Minute;
-            //    if (min < 30)
-            //        dt = dt.AddMinutes(30 - min);
-            //    else
-            //        dt = dt.AddMinutes(60 - min);
-            //    parti.InspectionDate = dt;
-            //    dt = dt.AddMinutes(30);
-            //    parti.InspectionTime = dt;
-            //}
-
-
-            //string tempDate = dt.ToString("dd.MM.yyyy HH:mm");
-            //if (DateTime.TryParseExact(tempDate, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
-            //{
-            //    dt = dt.AddMinutes(30);
-            //    parti.InspectionTime = dt;
-            //}
             if (ModelState.IsValid)
             {
                 parti.InspectionTime = SetTimeInsp(parti);
@@ -95,17 +77,6 @@ namespace ExportsOfGoods.Controllers
             return View(parti);
         }
         
-        private DateTime SetTimeInsp(Parti p)
-        {
-            DateTime dt = new DateTime(2000, 1, 1);
-            p.TypeOfInspection = db.TypeOfInspection.Find(p.TypeOfInspectionId);
-            int minInsp = (int)Math.Round(p.TypeOfInspection.Time * p.PartiSize / 30);
-            if (minInsp == 0) minInsp++;
-            int minR = minInsp * 30;
-            dt=dt.AddMinutes(minR);
-            p.InspectionTime = dt;
-            return (DateTime)p.InspectionTime;
-        }
         // GET: Parties/Edit/5
         [Authorize]
         public async Task<ActionResult> Edit(int? id)
@@ -123,7 +94,7 @@ namespace ExportsOfGoods.Controllers
                 return HttpNotFound();
             }
             ViewBag.ProductId = new SelectList(db.Products, "Id", "Name", parti.ProductId);
-            ViewBag.TypeOfInspectionId = new SelectList(db.TypeOfInspection, "Id", "Type");
+            ViewBag.TypeOfInspectionId = new SelectList(db.TypeOfInspection, "Id", "Type", parti.TypeOfInspectionId);
 
             return View(parti);
         }
@@ -136,13 +107,7 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,ProductId,PartiSize,TypeOfInspectionId")] Parti parti)
         {
-            //DateTime dt = new DateTime();
-            //if (!DateTime.TryParseExact(inspDate, "dd.MM.yyyy HH:mm", new CultureInfo("fr-FR"), DateTimeStyles.None, out dt))
-            //    ModelState.AddModelError("", "Формат даты: dd.MM.yyyy HH:mm");
-            //else
-            //{
-            //    parti.InspectionDate = dt;
-            //}
+
             if (ModelState.IsValid)
             {
                 parti.InspectionTime = SetTimeInsp(parti);
@@ -194,6 +159,18 @@ namespace ExportsOfGoods.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private DateTime SetTimeInsp(Parti p)
+        {
+            DateTime dt = new DateTime(2000, 1, 1);
+            p.TypeOfInspection = db.TypeOfInspection.Find(p.TypeOfInspectionId);
+            int minInsp = (int)Math.Round(p.TypeOfInspection.Time * p.PartiSize / 30);
+            if (minInsp == 0) minInsp++;
+            int minR = minInsp * 30;
+            dt = dt.AddMinutes(minR);
+            p.InspectionTime = dt;
+            return (DateTime)p.InspectionTime;
         }
     }
 }

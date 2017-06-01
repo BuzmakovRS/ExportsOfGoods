@@ -19,6 +19,10 @@ namespace ExportsOfGoods.Controllers
         [Authorize]
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.User.IsInRole("admin"))
+            {
+                ViewBag.isAdmin = true;
+            }
             var customs = db.Customs.Include(c => c.CountryRec).Include(c => c.CountrySend);
             return View(await customs.ToListAsync());
         }
@@ -58,6 +62,8 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,SenderId,RecipientId")] Customs customs)
         {
+            if (customs.SenderId == customs.RecipientId)
+                ModelState.AddModelError("RecipientId", "Отправитель и получатель не могут совпадать");
             if (ModelState.IsValid)
             {
                 db.Customs.Add(customs);
@@ -98,6 +104,8 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,SenderId,RecipientId")] Customs customs)
         {
+            if (customs.SenderId == customs.RecipientId)
+                ModelState.AddModelError("RecipientId", "Отправитель и получатель не могут совпадать");
             if (ModelState.IsValid)
             {
                 db.Entry(customs).State = EntityState.Modified;

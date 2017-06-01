@@ -25,38 +25,24 @@ namespace ExportsOfGoods.Models
         [DisplayName("Время на досмотр"), DisplayFormat(ApplyFormatInEditMode = true,
             DataFormatString = "{0:T}")]
         public DateTime? InspectionTime { get; set; }
-        //[DisplayName("Дата досмотра"), DisplayFormat(ApplyFormatInEditMode = true)]
-        //public DateTime? InspectionDate { get; set; }
-        //[NotMapped]
-        //public string InspectionTimeDisplay
-        //{
-        //    get
-        //    {
 
-        //        return InspectionTime.HasValue ? InspectionTime.Value.ToShortTimeString() : "";
-        //    }
-        //    set
-        //    {
-        //        if (string.IsNullOrEmpty(value))
-        //            InspectionTime = null;
-        //        else
-        //        {
-        //            var timeArg = value.Split('.', ':').Cast<int>().ToArray();
-        //            int hour = 0;
-        //            int min = 0;
-        //            int sec = 0;
+        [NotMapped]
+        public string GetName { 
+            get
+            {
+                Product pr = new ExportsContext().Products.Find(this.ProductId);
+                return String.Format("{0} : {1} ({2})", Id, pr.Name, PartiSize);
+            }
+        }
 
-        //            if (timeArg.Any())
-        //                hour = timeArg[0];
-        //            if (timeArg.Length > 1)
-        //                min = timeArg[1];
-        //            if (timeArg.Length > 2)
-        //                sec = timeArg[2];
-
-        //            var datetime = DateTime.Now;
-        //            InspectionTime = new DateTime(0, 0, 0, hour, min, sec);
-        //        }
-        //    }
-        //}
+        [NotMapped]
+        public string GetFullName
+        {
+            get
+            {
+                Product pr = new ExportsContext().Products.Find(this.ProductId);
+                return String.Format("{0} : {1} ({2}) [{3}]", Id, pr.Name, pr.NameProducer, PartiSize);
+            }
+        }
     }
 }

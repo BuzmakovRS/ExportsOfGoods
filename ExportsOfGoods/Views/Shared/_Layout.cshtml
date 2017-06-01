@@ -22,6 +22,7 @@
                 @Html.ActionLink("Экспорт", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+                @if (ViewBag.isNotAuth == null){
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Продукты", "Index", "Products")</li>
                     <li>@Html.ActionLink("Партия", "Index", "Parties")</li>
@@ -30,6 +31,7 @@
                     <li>@Html.ActionLink("Запись", "Index", "CustomsQueues")</li>
                     <li>@Html.ActionLink("Уровень проверки", "Index", "TypeOfInspections")</li>
                 </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

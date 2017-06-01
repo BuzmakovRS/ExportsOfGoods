@@ -19,6 +19,10 @@ namespace ExportsOfGoods.Controllers
         [Authorize]
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.User.IsInRole("admin"))
+            {
+                ViewBag.isAdmin = true;
+            }
             return View(await db.Products.ToListAsync());
         }
 

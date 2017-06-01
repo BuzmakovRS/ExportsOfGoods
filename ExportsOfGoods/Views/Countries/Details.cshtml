@@ -1,13 +1,13 @@
 ﻿@model ExportsOfGoods.Models.Country
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подробнее";
 }
 
-<h2>Details</h2>
+<h2 class="bodyheader">Страны</h2>
 
 <div>
-    <h4>Country</h4>
+    <h4 class="bodyheader2">Подробнее</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -21,6 +21,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CountryId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактирование", "Edit", new { id = Model.CountryId }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
 </p>

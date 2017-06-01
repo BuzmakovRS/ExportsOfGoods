@@ -234,6 +234,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Export.jpg" />
     <Content Include="Content\jquery.datetimepicker.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -321,12 +322,11 @@
     <Content Include="Views\CustomsQueues\Details.cshtml" />
     <Content Include="Views\CustomsQueues\Edit.cshtml" />
     <Content Include="Views\CustomsQueues\Index.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\TypeOfInspecions\Create.cshtml" />
-    <Content Include="Views\TypeOfInspecions\Delete.cshtml" />
-    <Content Include="Views\TypeOfInspecions\Details.cshtml" />
-    <Content Include="Views\TypeOfInspecions\Edit.cshtml" />
-    <Content Include="Views\TypeOfInspecions\Index.cshtml" />
+    <Content Include="Views\TypeOfInspections\Create.cshtml" />
+    <Content Include="Views\TypeOfInspections\Delete.cshtml" />
+    <Content Include="Views\TypeOfInspections\Details.cshtml" />
+    <Content Include="Views\TypeOfInspections\Edit.cshtml" />
+    <Content Include="Views\TypeOfInspections\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

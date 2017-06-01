@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ExportsOfGoods.Models.Country>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Страны";
 }
 
-<h2>Index</h2>
+<h2 class="bodyheader">Страны</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить", "Create")
 </p>
 <table class="table">
     <tr>
@@ -23,9 +23,12 @@
             @Html.DisplayFor(modelItem => item.CountryName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CountryId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CountryId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CountryId })
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.CountryId }) |
+            @Html.ActionLink("Подробнее", "Details", new { id=item.CountryId }) |
+            @if (ViewBag.isAdmin != null && ViewBag.isAdmin == true)
+            {
+                 @Html.ActionLink("Удалить", "Delete", new { id = item.CountryId })
+            }
         </td>
     </tr>
 }

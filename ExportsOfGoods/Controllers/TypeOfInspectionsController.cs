@@ -15,10 +15,14 @@ namespace ExportsOfGoods.Controllers
     {
         private ExportsContext db = new ExportsContext();
 
-        [Authorize(Roles ="admin")]
+        [Authorize]
         // GET: TypeOfInspecions
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.User.IsInRole("admin"))
+            {
+                ViewBag.isAdmin = true;
+            }
             return View(await db.TypeOfInspection.ToListAsync());
         }
 

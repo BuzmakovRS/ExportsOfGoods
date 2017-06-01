@@ -19,6 +19,10 @@ namespace ExportsOfGoods.Controllers
         // GET: CustomsQueues
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.User.IsInRole("admin"))
+            {
+                ViewBag.isAdmin = true;
+            }
             var customsQueues = db.CustomsQueues.Include(c => c.Customs).Include(c => c.Parti);
             return View(await customsQueues.ToListAsync());
         }
@@ -46,7 +50,8 @@ namespace ExportsOfGoods.Controllers
         public ActionResult Create()
         {
             ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name");
-            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id");
+            ViewBag.PartiId = new SelectList(db.Parties, "Id", "GetName");
+
             return View();
         }
 
@@ -58,6 +63,10 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegInsp, string timeEndInsp)
         {
+            if (db.CustomsQueues.ToList().FirstOrDefault(c => c.PartiId == customsQueue.PartiId) != null)
+            {
+                ModelState.AddModelError("PartiId", "Данная партия уже зарегистрирована");
+            }
             DateTime dt = new DateTime();
             if (!DateTime.TryParseExact(timeBegInsp, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
                 ModelState.AddModelError("timeBegInsp", "Формат даты: dd.MM.yyyy HH:mm");
@@ -71,6 +80,13 @@ namespace ExportsOfGoods.Controllers
             {
                 customsQueue.TimeEndInsp = dt;
             }
+            if (!EntryInQueues(customsQueue.CustomsId, customsQueue.TimeBegInsp, customsQueue.TimeEndInsp))
+            {
+                ModelState.AddModelError("", "Ошибка записи: \nна это время уже назначена запись.\n Выберите другое время.");
+            }
+            ViewBag.ListQ = db.CustomsQueues.Where(c => c.TimeBegInsp.Year == customsQueue.TimeBegInsp.Year &&
+            c.TimeBegInsp.Month == customsQueue.TimeBegInsp.Month &&
+            c.TimeBegInsp.Day == customsQueue.TimeBegInsp.Day).ToList();
             if (ModelState.IsValid)
             {
                 db.CustomsQueues.Add(customsQueue);
@@ -79,9 +95,10 @@ namespace ExportsOfGoods.Controllers
             }
 
             ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name", customsQueue.CustomsId);
-            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id", customsQueue.PartiId);
+            ViewBag.PartiId = new SelectList(db.Parties, "Id", "GetName", customsQueue.PartiId);
             return View(customsQueue);
         }
+
 
         // GET: CustomsQueues/Edit/5
         [Authorize]
@@ -99,7 +116,6 @@ namespace ExportsOfGoods.Controllers
                 return HttpNotFound();
             }
             ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name", customsQueue.CustomsId);
-            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id", customsQueue.PartiId);
             return View(customsQueue);
         }
 
@@ -111,6 +127,7 @@ namespace ExportsOfGoods.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CustomsId,PartiId")] CustomsQueue customsQueue, string timeBegIns, string timeEndIns)
         {
+
             DateTime dt = new DateTime();
             if (!DateTime.TryParseExact(timeBegIns, "dd.MM.yyyy HH:mm", new CultureInfo("ru-RU"), DateTimeStyles.None, out dt))
                 ModelState.AddModelError("", "Укажите дату в формате dd.MM.yyyy HH:mm");
@@ -124,6 +141,13 @@ namespace ExportsOfGoods.Controllers
             {
                 customsQueue.TimeEndInsp = dt;
             }
+            //if (!EntryInQueues(customsQueue.CustomsId, customsQueue.TimeBegInsp, customsQueue.TimeEndInsp))
+            //{
+            //    ModelState.AddModelError("", "Ошибка записи: \nна этот интервал времени уже произведена запись.\n Выберите другое время.");
+            //}
+            //ViewBag.ListQ = db.CustomsQueues.Where(c => c.TimeBegInsp.Year == customsQueue.TimeBegInsp.Year &&
+            //c.TimeBegInsp.Month == customsQueue.TimeBegInsp.Month &&
+            //c.TimeBegInsp.Day == customsQueue.TimeBegInsp.Day).ToList();
             if (ModelState.IsValid)
             {
                 db.Entry(customsQueue).State = EntityState.Modified;
@@ -131,7 +155,6 @@ namespace ExportsOfGoods.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.CustomsId = new SelectList(db.Customs, "Id", "Name", customsQueue.CustomsId);
-            ViewBag.PartiId = new SelectList(db.Parties, "Id", "Id", customsQueue.PartiId);
             return View(customsQueue);
         }
 
@@ -154,7 +177,7 @@ namespace ExportsOfGoods.Controllers
         }
 
         // POST: CustomsQueues/Delete/5
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
@@ -186,9 +209,34 @@ namespace ExportsOfGoods.Controllers
                 Parti parti = await db.Parties.FindAsync(Convert.ToInt32(pId));
                 dt = dt.AddHours(parti.InspectionTime.Value.Hour);
                 dt = dt.AddMinutes(parti.InspectionTime.Value.Minute);
-                return  dt.ToString("dd.MM.yyyy HH:mm");
+                return dt.ToString("dd.MM.yyyy HH:mm");
             }
 
+        }
+
+        private bool EntryInQueues(int? customsId, DateTime dateTimeBeg, DateTime dateTimeEnd)
+        {
+            int dayC = dateTimeBeg.Day;
+            var CQList = db.CustomsQueues.Where(c => c.CustomsId == customsId)
+                .Where(c => c.TimeBegInsp.Day == dayC).Include(c => c.Parti).ToList();
+
+            bool freeDate = true;
+            if (CQList != null)
+            {
+                for (int i = 0; i < CQList.Count; i++)
+                {
+                    if ((CQList[i].TimeBegInsp > dateTimeBeg && CQList[i].TimeBegInsp < dateTimeEnd) ||
+                        (CQList[i].TimeEndInsp > dateTimeBeg && CQList[i].TimeEndInsp < dateTimeEnd) ||
+                        (CQList[i].TimeBegInsp < dateTimeBeg && CQList[i].TimeEndInsp > dateTimeBeg) ||
+                        (CQList[i].TimeBegInsp < dateTimeEnd && CQList[i].TimeEndInsp > dateTimeEnd))
+                    {
+                        freeDate = false; break;
+                    }
+                    //if (dateTimeBeg.TimeOfDay < new TimeSpan(9, 0, 0) || dateTimeEnd.TimeOfDay > new TimeSpan(23, 0, 0) || dateTimeEnd.TimeOfDay < new TimeSpan(9,0,0))
+                    //    freeDate = false;
+                }
+            }
+            return freeDate;
         }
 
     }
