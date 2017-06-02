@@ -80,7 +80,7 @@ namespace ExportsOfGoods.Controllers
             {
                 customsQueue.TimeEndInsp = dt;
             }
-            if (!EntryInQueues(customsQueue.CustomsId, customsQueue.TimeBegInsp, customsQueue.TimeEndInsp))
+            if (!EntryInQueues(customsQueue))
             {
                 ModelState.AddModelError("", "Ошибка записи: \nна это время уже назначена запись.\n Выберите другое время.");
             }
@@ -141,10 +141,10 @@ namespace ExportsOfGoods.Controllers
             {
                 customsQueue.TimeEndInsp = dt;
             }
-            //if (!EntryInQueues(customsQueue.CustomsId, customsQueue.TimeBegInsp, customsQueue.TimeEndInsp))
-            //{
-            //    ModelState.AddModelError("", "Ошибка записи: \nна этот интервал времени уже произведена запись.\n Выберите другое время.");
-            //}
+            if (!EntryInQueues(customsQueue))
+            {
+                ModelState.AddModelError("", "Ошибка записи: \nна этот интервал времени уже произведена запись.\n Выберите другое время.");
+            }
             //ViewBag.ListQ = db.CustomsQueues.Where(c => c.TimeBegInsp.Year == customsQueue.TimeBegInsp.Year &&
             //c.TimeBegInsp.Month == customsQueue.TimeBegInsp.Month &&
             //c.TimeBegInsp.Day == customsQueue.TimeBegInsp.Day).ToList();
@@ -214,10 +214,10 @@ namespace ExportsOfGoods.Controllers
 
         }
 
-        private bool EntryInQueues(int? customsId, DateTime dateTimeBeg, DateTime dateTimeEnd)
+        private bool EntryInQueues(CustomsQueue customsQ)
         {
-            int dayC = dateTimeBeg.Day;
-            var CQList = db.CustomsQueues.Where(c => c.CustomsId == customsId)
+            int dayC = customsQ.TimeBegInsp.Day;
+            var CQList = db.CustomsQueues.Where(c => c.CustomsId == customsQ.CustomsId && c.Id !=customsQ.Id)
                 .Where(c => c.TimeBegInsp.Day == dayC).Include(c => c.Parti).ToList();
 
             bool freeDate = true;
@@ -225,10 +225,10 @@ namespace ExportsOfGoods.Controllers
             {
                 for (int i = 0; i < CQList.Count; i++)
                 {
-                    if ((CQList[i].TimeBegInsp > dateTimeBeg && CQList[i].TimeBegInsp < dateTimeEnd) ||
-                        (CQList[i].TimeEndInsp > dateTimeBeg && CQList[i].TimeEndInsp < dateTimeEnd) ||
-                        (CQList[i].TimeBegInsp < dateTimeBeg && CQList[i].TimeEndInsp > dateTimeBeg) ||
-                        (CQList[i].TimeBegInsp < dateTimeEnd && CQList[i].TimeEndInsp > dateTimeEnd))
+                    if ((CQList[i].TimeBegInsp >= customsQ.TimeBegInsp && CQList[i].TimeBegInsp < customsQ.TimeEndInsp) ||
+                        (CQList[i].TimeEndInsp > customsQ.TimeBegInsp && CQList[i].TimeEndInsp <= customsQ.TimeEndInsp) ||
+                        (CQList[i].TimeBegInsp < customsQ.TimeBegInsp && CQList[i].TimeEndInsp > customsQ.TimeBegInsp) ||
+                        (CQList[i].TimeBegInsp < customsQ.TimeEndInsp && CQList[i].TimeEndInsp >= customsQ.TimeEndInsp))
                     {
                         freeDate = false; break;
                     }
